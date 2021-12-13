@@ -14,9 +14,11 @@ import SearchBar from '../components/shop/SearchBar'
 
 const ProductOverviewScreen = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(false)
-    const  [searchText, setSearchText] =useState('');
+    const [searchText, setSearchText] = useState('');
     const products = useSelector(state => state.products.availableProducts)
     const dispatch = useDispatch();
+    const fiterproducts = useSelector(state => state.products.availableProducts.filter(product => product.Title.toLowerCase().includes(searchText.toLowerCase())))
+    console.log("++++++++", fiterproducts)
 
 
     const handleChange = (text) => {
@@ -27,7 +29,7 @@ const ProductOverviewScreen = ({ navigation }) => {
         setIsLoading(true);
         await dispatch(productsActions.fetchProducts())
         setIsLoading(false)
-    },[dispatch, setIsLoading])
+    }, [dispatch, setIsLoading])
 
     useEffect(() => {
         loadProducts()
@@ -49,7 +51,7 @@ const ProductOverviewScreen = ({ navigation }) => {
             </View>
         )
     }
-    
+
     if (!isLoading && products.length === 0) {
         return (
             <View style={styles.centered}>
@@ -59,35 +61,35 @@ const ProductOverviewScreen = ({ navigation }) => {
     }
 
     return (
-        <View>
+        <View style = {{flex: 1}}>
             <View>
-                <SearchBar search = {searchText} setSearch = {handleChange} />
+                <SearchBar search={searchText} setSearch={handleChange} />
             </View>
-     
 
-        <FlatList
-            data={products}
-            keyExtractor={item => item.id}
-            renderItem={itemData => (
 
-                <ProductItem
-                    Image={itemData.item.Image}
-                    Title={itemData.item.Title}
-                    Price={itemData.item.Price}
-                    onSelect={() => {
-                        selectItemHandler(itemData.item.id, itemData.item.Title)
-                    }}
+            <FlatList
+                data={fiterproducts}
+                keyExtractor={item => item.id}
+                renderItem={itemData => (
 
-                >
-                    <TouchableOpacity style={styles.actions} onPress={() => {
-                        dispatch(cartActions.addToCart(itemData.item));
-                    }}>
-                        <Text style={styles.btext}>Add To Cart</Text>
-                    </TouchableOpacity>
-                </ProductItem>
-            )}
-        />
-           </View>
+                    <ProductItem
+                        Image={itemData.item.Image}
+                        Title={itemData.item.Title}
+                        Price={itemData.item.Price}
+                        onSelect={() => {
+                            selectItemHandler(itemData.item.id, itemData.item.Title)
+                        }}
+
+                    >
+                        <TouchableOpacity style={styles.actions} onPress={() => {
+                            dispatch(cartActions.addToCart(itemData.item));
+                        }}>
+                            <Text style={styles.btext}>Add To Cart</Text>
+                        </TouchableOpacity>
+                    </ProductItem>
+                )}
+            />
+        </View>
     )
 };
 
