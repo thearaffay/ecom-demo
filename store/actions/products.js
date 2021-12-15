@@ -57,25 +57,15 @@ export const deleteProduct = productId => {
 //   };
 // };
 
-export const updateProduct = (id, Title, Description, Image) => {
-  return {
-    type: UPDATE_PRODUCT,
-    pid: id,
-    productData: {
-      Title,
-      Description,
-      Image,
-    }
-  };
-};
-export const updateProduct = (id, Title, Description, Image) => {
-  return {
-    type: UPDATE_PRODUCT,
-    pid: id,
-    productData: {
-      Title,
-      Description,
-      Image,
-    }
-  };
-};
+// export const updateProduct = (id, Title, Description, Image) => {
+//   return {
+//     type: UPDATE_PRODUCT,
+//     pid: id,
+//     productData: {
+//       Title,
+//       Description,
+//       Image,
+//     }
+//   };
+// };
+
